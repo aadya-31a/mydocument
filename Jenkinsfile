@@ -12,7 +12,6 @@ pipeline {
         stage('') {
           steps {
             sh 'mvn clean compile package'
-            sh 'mvn clean compile package'
           }
         }
 
@@ -20,14 +19,36 @@ pipeline {
     }
 
     stage('Test') {
-      steps {
-        sh 'echo "Running tests"'
+      parallel {
+        stage('Test') {
+          steps {
+            sh 'echo "Running tests"'
+          }
+        }
+
+        stage('') {
+          steps {
+            sh 'mvn test'
+          }
+        }
+
       }
     }
 
     stage('Deploy') {
-      steps {
-        sh 'echo "Deploying application"'
+      parallel {
+        stage('Deploy') {
+          steps {
+            sh 'echo "Deploying application"'
+          }
+        }
+
+        stage('') {
+          steps {
+            sh 'java -jar target/myapp.jar'
+          }
+        }
+
       }
     }
 
