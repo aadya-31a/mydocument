@@ -6,10 +6,12 @@ pipeline {
         stage('Build') {
           steps {
             sh 'echo "Building application"'
+            sh '''echo "Building application"
+mvn clean package'''
           }
         }
 
-        stage('') {
+        stage('error') {
           steps {
             sh 'mvn clean compile package'
           }
@@ -23,10 +25,12 @@ pipeline {
         stage('Test') {
           steps {
             sh 'echo "Running tests"'
+            sh '''echo "Running tests"
+mvn test'''
           }
         }
 
-        stage('') {
+        stage('error') {
           steps {
             sh 'mvn test'
           }
@@ -40,10 +44,12 @@ pipeline {
         stage('Deploy') {
           steps {
             sh 'echo "Deploying application"'
+            sh '''echo "Deploying application"
+java -jar target/myapp.jar '''
           }
         }
 
-        stage('') {
+        stage('error') {
           steps {
             sh 'java -jar target/myapp.jar'
           }
